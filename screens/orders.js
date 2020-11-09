@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import OrderItem from '../Components/orderItem'
 import { UserContext } from "../Contexts/UserContext";
 
@@ -20,20 +20,27 @@ export default function Orders({ navigation }) {
     // useEffect(() => {
     // }, []);
     
-    return (
-        
-        <View style={styles.list}>
-            <FlatList 
-                data={orders}
-                keyExtractor={(item, index) => item.SK}
-                renderItem={({ item }) => (
-                    <TouchableOpacity>
-                        <OrderItem item={item}/>
-                    </TouchableOpacity>
-                )}
-            />
-        </View>
-    )
+    if(!orders[0]){
+        return (
+            <Text style={styles.title}>No tiene pedidos aun</Text>
+        )
+    }else{
+        return (
+            
+            <View style={styles.list}>
+                <FlatList 
+                    data={orders}
+                    keyExtractor={(item, index) => item.SK}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity>
+                            <OrderItem item={item}/>
+                        </TouchableOpacity>
+                    )}
+                />
+            </View>
+        )
+    }
+
 
 }
 

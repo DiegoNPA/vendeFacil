@@ -9,6 +9,8 @@ export default function OrderItem({ item }) {
     <Card>
       <AntDesign name="tagso" size={30} color="black" />
       <Text style={styles.title}>{item.orderStatus} {"\n"}</Text>
+      <Text>Comprador: {item.clientName} {"\n"}</Text>
+      <Text>Vendedor: {item.sellerName} {"\n"}</Text>
       <Text>Id: {item.orderId}{"\n"}</Text>
       <Text>Producto: {item.productName}{"\n"}</Text>
       <Text>Precio: {item.finalPrice}{"\n"}</Text>

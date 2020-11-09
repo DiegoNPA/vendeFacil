@@ -133,7 +133,8 @@ export default function SignIn() {
                       lastName,
                       gender,
                       phone,
-                      cognitoId: data.userSub
+                      cognitoId: data.userSub,
+                      type: 'client'
                   }
                   setUser(user)
                   console.log(user, 'globaluser');
@@ -162,7 +163,8 @@ export default function SignIn() {
                       sellerName: name,
                       phone: phone,
                       description: description,
-                      category: category
+                      category: category,
+                      type: 'seller'
                   }
                   setUser(user);
               });
@@ -193,9 +195,14 @@ export default function SignIn() {
               userName: userName,
               clientName: json.clientName,
               lastName: json.lastName,
+              sellerId: json.sellerId,
               gender: json.gender,
               phone: json.phone,
-              clientId: json.clientId
+              clientId: json.clientId,
+              type: json.type,
+              sellerName: json.sellerName,
+              description: json.description,
+              category: json.category
             }
             setUser(user1);
             console.log(user1);

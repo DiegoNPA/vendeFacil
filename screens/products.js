@@ -77,6 +77,7 @@ export default function Products({ navigation }) {
                                                 placeholder='Cantidad que desea comprar'
                                                 onChangeText={props.handleChange('quantity')}
                                                 onBlur={props.handleBlur('quantity')}
+                                                keyboardType='numeric'
                                                 value={props.values.quantity}
                                             />
                                             <Text style={styles.errorText}>{props.touched.quantity && props.errors.quantity}</Text>

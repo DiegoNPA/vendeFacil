@@ -40,19 +40,19 @@ export default function ClientInfo({ navigation }) {
         },
         { text: "OK", onPress: () => {
           console.log("OK Pressed")
-          BackHandler.exitApp();
           const requestOptions = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            };
-            fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/client/${user.clientId}`, requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data, 'data');
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+          };
+          fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/client/${user.clientId}`, requestOptions)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data, 'data');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+          BackHandler.exitApp();
         }}
       ],
       { cancelable: false }
