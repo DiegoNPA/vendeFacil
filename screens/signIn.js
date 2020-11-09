@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TextInput,
   Alert,
   TouchableWithoutFeedback,
@@ -130,11 +129,11 @@ export default function SignIn() {
               .then(response => response.json())
               .then(data1 => {
                   const user = {
-                      name,
+                      clientName: name,
                       lastName,
                       gender,
-                      cognitoId: data.userSub,
-                      phone
+                      phone,
+                      cognitoId: data.userSub
                   }
                   setUser(user)
                   console.log(user, 'globaluser');
@@ -351,8 +350,8 @@ export default function SignIn() {
             initialValues = {{userName: '', password: '', clientName: '', phone: '', lastName: '', gender: ''}}
             validationSchema={schemaSignUpClient}
             onSubmit = {(values) => {
-            onSubmitClient(values.userName, values.password, values.clientName, values.phone, values.lastName, values.gender);
-          }}
+              onSubmitClient(values.userName, values.password, values.clientName, values.phone, values.lastName, values.gender);
+            }}
           >
             {props => (
               <View>

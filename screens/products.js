@@ -1,12 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native'
 import ProductItem from '../Components/productItem'
-import Card from '../shared/card';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import FlatButton from '../shared/button';
-import UserContextProvider, { UserContext } from "../Contexts/UserContext";
+import { UserContext } from "../Contexts/UserContext";
 
 export default function Products({ navigation }) {
 
@@ -59,14 +58,11 @@ export default function Products({ navigation }) {
                                     validationSchema={schema}
                                     onSubmit = {(values) => {
                                         setOpenModal(false);
-                                        console.log('prueba')
                                         const requestOptions = {
                                             method: 'POST',
                                             headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({ quantity: values.quantity })
                                             };
-                                            console.log(user, 'aca');
-                                            console.log(item, 'tambien')
                                             fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/client/${user.clientId}/seller/${item.sellerId}/product/${item.productId}/order`, requestOptions)
                                                 .then(response => response.json())
                                                 .then(data => {

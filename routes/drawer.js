@@ -7,6 +7,7 @@ import OrdersStack from './ordersStack';
 import AllProductsStack from './allProductsStack';
 import ClientInfoStack from './clientInfo';
 import SellerInfoStack from './sellerInfo';
+import ExitApp from './exitApp';
 
 // drawer navigation options
 const RootDrawerNavigator = createDrawerNavigator({
@@ -21,6 +22,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
   Usuario: {
     screen: ClientInfoStack
+  },
+  Salir: {
+    screen: ExitApp
   }
 });
 
