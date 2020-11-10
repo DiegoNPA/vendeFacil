@@ -2,10 +2,10 @@ import React, { useContext, useState, useEffect } from 'react'
 import { View, FlatList, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native'
 import OrderItem from '../Components/orderItem'
 import { UserContext } from "../Contexts/UserContext";
-import FlatButtonConfirm from '../shared/confirmButton';
+import FlatButtonDeliver from '../shared/deliverButton';
 import FlatButtonDelete from '../shared/deleteButton';
 
-export default function OrdersForSeller({ navigation }) {
+export default function ConfirmedOrdersSeller({ navigation }) {
 
     const {user} = useContext(UserContext);
 
@@ -22,10 +22,10 @@ export default function OrdersForSeller({ navigation }) {
     // useEffect(() => {
     // }, []);
 
-    const createConfirmAlert = (productId) =>
+    const createDeliverAlert = (productId) =>
     Alert.alert(
-        "Confirmar pedido",
-        "¿Desea confirmar el pedido?",
+        "Entrega de producto",
+        "¿Desea confirmar la entrega del pedido?",
         [
         {
             text: "Cancel",
@@ -37,7 +37,7 @@ export default function OrdersForSeller({ navigation }) {
             const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ paramName: "orderStatus", paramValue: "Confirmado" })
+            body: JSON.stringify({ paramName: "orderStatus", paramValue: "Entregado" })
             };
             fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller/${user.sellerId}/order/${productId}`, requestOptions)
                 .then(response => response.json())
@@ -81,13 +81,12 @@ export default function OrdersForSeller({ navigation }) {
         ],
         { cancelable: false }
     );
-
+    
     if(!orders[0]){
         return (
-            <Text style={styles.title}>No tiene pedidos aun</Text>
+            <Text style={styles.title}>No tiene pedidos confirmados aun</Text>
         )
-    }
-    else{
+    }else{
         return (
             
             <View style={styles.list}>
@@ -95,16 +94,20 @@ export default function OrdersForSeller({ navigation }) {
                     data={orders}
                     keyExtractor={(item, index) => item.SK}
                     renderItem={({ item }) => (
-                        <TouchableOpacity>
-                            <OrderItem item={item}/>
-                            <FlatButtonConfirm onPress={() => createConfirmAlert(item.orderId)} text='Confirmar el pedido'/>
-                            <FlatButtonDelete onPress={() => createRejectAlert(item.orderId)} text='Rechazar el pedido'/>
-                        </TouchableOpacity>
+                        (item.orderStatus == 'Confirmado' ? 
+                            <TouchableOpacity>
+                                <OrderItem item={item}/>
+                                <FlatButtonDeliver onPress={() => createDeliverAlert(item.orderId)} text='Pedido entregado'/>
+                                <FlatButtonDelete onPress={() => createRejectAlert(item.orderId)} text='Rechazar el pedido'/>
+                            </TouchableOpacity> 
+                            : null)
+                            
                     )}
                 />
             </View>
         )
     }
+
 
 }
 

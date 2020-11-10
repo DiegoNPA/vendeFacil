@@ -4,13 +4,25 @@ import { createAppContainer } from 'react-navigation';
 // stacks
 import SellerInfoStack from './sellerInfo';
 import ExitApp from './exitApp';
-import OrdersForSellerStack from './ordersForSellerStack';
-import ProductsForSellerStack from './productsForSellerStack'
+import ProductsForSellerStack from './productsForSellerStack';
+import ConfirmedOrdersSellerStack from './confirmedOrdersSellerStack';
+import DeliveredOrdersSellerStack from './deliveredOrdersSellerStack';
+import PendingOrdersSellerStack from './pendingOrdersSellerStack';
+import RejectedOrdersSellerStack from './rejectedOrdersSellerStack';
 
 // drawer navigation options
 const RootDrawerNavigator = createDrawerNavigator({
-  Pedidos: {
-    screen: OrdersForSellerStack
+  PedidosPendientes: {
+    screen: PendingOrdersSellerStack
+  },
+  PedidosConfirmados: {
+    screen: ConfirmedOrdersSellerStack
+  },
+  PedidosEntregados: {
+    screen: DeliveredOrdersSellerStack
+  },
+  PedidosRechazados: {
+    screen: RejectedOrdersSellerStack
   },
   MisProductos: {
     screen: ProductsForSellerStack

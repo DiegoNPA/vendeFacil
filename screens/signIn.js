@@ -153,7 +153,7 @@ export default function SignIn() {
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({sellerName: name, description: description, category: category, phone: phone, cognitoId: data.userSub })
+          body: JSON.stringify({sellerName: name, description: description, category: category, phone: phone, cognitoId: data.userSub, imageUrl: " " })
           };
           fetch('https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller', requestOptions)
               .then(response => response.json())
@@ -164,7 +164,8 @@ export default function SignIn() {
                       phone: phone,
                       description: description,
                       category: category,
-                      type: 'seller'
+                      type: 'seller',
+                      imageUrl: " "
                   }
                   setUser(user);
               });
@@ -202,7 +203,8 @@ export default function SignIn() {
               type: json.type,
               sellerName: json.sellerName,
               description: json.description,
-              category: json.category
+              category: json.category,
+              imageUrl: json.imageUrl
             }
             setUser(user1);
             console.log(user1);

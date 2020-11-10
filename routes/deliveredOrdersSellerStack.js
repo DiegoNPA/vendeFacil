@@ -1,11 +1,11 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
 import Header from '../shared/header';
-import Orders from '../screens/orders';
+import DeliveredOrdersSeller from '../screens/deliveredOrdersSeller';
 
 const screens = {
-  Orders: {
-    screen: Orders,
+  DeliveredOrdersSeller: {
+    screen: DeliveredOrdersSeller,
     navigationOptions: ({ navigation }) => {
       return {
         headerTitle: () => <Header title='Pedidos' navigation={navigation} />
@@ -14,7 +14,7 @@ const screens = {
   },
 }
 
-const OrdersStack = createStackNavigator(screens, {
+const DeliveredOrdersSellerStack = createStackNavigator(screens, {
   defaultNavigationOptions: {
     headerTintColor: '#444',
     headerStyle: {
@@ -23,4 +23,4 @@ const OrdersStack = createStackNavigator(screens, {
   }
 });
 
-export default OrdersStack;
+export default DeliveredOrdersSellerStack;

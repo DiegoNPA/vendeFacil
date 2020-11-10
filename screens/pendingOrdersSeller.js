@@ -5,7 +5,7 @@ import { UserContext } from "../Contexts/UserContext";
 import FlatButtonConfirm from '../shared/confirmButton';
 import FlatButtonDelete from '../shared/deleteButton';
 
-export default function OrdersForSeller({ navigation }) {
+export default function PendingOrdersSeller({ navigation }) {
 
     const {user} = useContext(UserContext);
 
@@ -84,7 +84,7 @@ export default function OrdersForSeller({ navigation }) {
 
     if(!orders[0]){
         return (
-            <Text style={styles.title}>No tiene pedidos aun</Text>
+            <Text style={styles.title}>No tiene pedidos pendientes aun</Text>
         )
     }
     else{
@@ -95,11 +95,12 @@ export default function OrdersForSeller({ navigation }) {
                     data={orders}
                     keyExtractor={(item, index) => item.SK}
                     renderItem={({ item }) => (
+                        (item.orderStatus == 'Pendiente' ? 
                         <TouchableOpacity>
                             <OrderItem item={item}/>
                             <FlatButtonConfirm onPress={() => createConfirmAlert(item.orderId)} text='Confirmar el pedido'/>
                             <FlatButtonDelete onPress={() => createRejectAlert(item.orderId)} text='Rechazar el pedido'/>
-                        </TouchableOpacity>
+                        </TouchableOpacity> : null)
                     )}
                 />
             </View>
