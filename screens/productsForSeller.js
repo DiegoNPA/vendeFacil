@@ -114,8 +114,8 @@ export default function ProductsForSeller({ navigation }) {
         keyPrefix: 's3/',
         bucket: 'myphotosserverlessapp',
         region: 'us-east-1',
-        accessKey: 'AKIAYAUP6UVNE4D7GHFN',
-        secretKey: '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',
+        accessKey: '#########',
+        secretKey: '#########',
         successActionStatus: 201
       }
 
