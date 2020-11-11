@@ -153,6 +153,8 @@ export default function SellerInfo({ navigation }) {
                     validationSchema={schema}
                     onSubmit = {(values) => {
                         setOpenModal(false);
+                        console.log(values, 'valoressssssssss');
+                        console.log(imageUrl,"urrrrrrrrrrl");
                         const requestOptions = {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
@@ -161,7 +163,7 @@ export default function SellerInfo({ navigation }) {
                             fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller/${user.sellerId}`, requestOptions)
                                 .then(response => response.json())
                                 .then(data => {
-                                    console.log(data, 'data');
+                                  console.log(data, 'dataxxxx');
                                 })
                                 .catch((err) => {
                                   console.log(err);
@@ -232,10 +234,10 @@ export default function SellerInfo({ navigation }) {
             </View>
             <View>
               <Ionicons name="md-person" size={30} color="black" />
-              <Text style={styles.title}>{seller.sellerName}</Text>
-              <Text>Descripcion: {seller.description}</Text>
-              <Text>Categoria: {seller.category}</Text>
-              <Text>Telefono: {seller.phone}</Text>
+              <Text style={styles.title}>{user.sellerName}</Text>
+              <Text>Descripcion: {user.description}</Text>
+              <Text>Categoria: {user.category}</Text>
+              <Text>Telefono: {user.phone}</Text>
             </View>
           </Card>
 

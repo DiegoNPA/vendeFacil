@@ -2,114 +2,42 @@ import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
+  FlatList,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
+  Modal,
   Image,
   Alert
 } from "react-native";
+import ProductItemForSeller from "../Components/productItemForSeller";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import * as yup from "yup";
 import FlatButton from "../shared/button";
 import { UserContext } from "../Contexts/UserContext";
-import * as ImagePicker from 'expo-image-picker';
-import { RNS3 } from 'react-native-aws3';
 import { ScrollView } from "react-native-gesture-handler";
-import FlatButtonDelete from '../shared/deleteButton';
 
-export default function EditProduct({navigation}) {
+export default function AddProduct({navigation}){
 
   const { user } = useContext(UserContext);
 
-  const productName = navigation.getParam('productName');
-  const description = navigation.getParam('description');
-  const category = navigation.getParam('category');
-  const price = navigation.getParam('price');
-  const stock = navigation.getParam('stock');
-  const measureUnit = navigation.getParam('measureUnit');
-  const productId = navigation.getParam('productId');
-
-  const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState("");
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    })();
-  }, []);
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-
-      console.log(result);
-
-      const file = {
-        uri: result.uri,
-        name: 'images'+ new Date().valueOf().toString(),
-        type: 'image/jpeg'
-      }
-
-      const config = {
-        keyPrefix: 's3/',
-        bucket: 'myphotosserverlessapp',
-        region: 'us-east-1',
-        accessKey: '#############',
-        secretKey: '#############',
-        successActionStatus: 201
-      }
-
-      RNS3.put(file, config)
-        .then( (res) => {
-          console.log(res, "aca");
-          console.log(res.body.postResponse.location ,'aca si');
-          setImageUrl(res.body.postResponse.location);
-        } )
-      }
-    }
-
-    const createDeleteAlert = (productId) =>
-    Alert.alert(
-      "¿Desea eliminar este producto?",
-      "Esta accion es irreversible!",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => {
-          console.log("OK Pressed")
-          const requestOptions = {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-          };
-          fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller/${user.sellerId}/product/${productId}`, requestOptions)
-          .then(response => response.json())
-          .then(data => {
-            console.log(data, 'data');
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        }}
-      ],
-      { cancelable: false }
-    );
+  const createAddAlert = () =>
+  Alert.alert(
+    "Añada una foto para su producto!",
+    "Edite el producto",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "OK", onPress: () => {
+        console.log("OK Pressed")
+      }}
+    ],
+    { cancelable: false }
+  );
 
   const schema = yup.object({
     productName: yup
@@ -139,22 +67,22 @@ export default function EditProduct({navigation}) {
       }),
   });
 
-  return (
-
+  return(
     <ScrollView>
+      <View style={styles.modalContent}>
         <Formik
           initialValues={{
-            productName: productName,
-            description: description,
-            category: category,
-            price: price,
-            measureUnit: measureUnit,
-            stock: stock,
+            productName: "",
+            description: "",
+            category: "",
+            price: "",
+            measureUnit: "",
+            stock: "",
           }}
           validationSchema={schema}
           onSubmit={(values) => {
             const requestOptions = {
-              method: "PUT",
+              method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 productName: values.productName,
@@ -163,11 +91,11 @@ export default function EditProduct({navigation}) {
                 price: values.price,
                 measureUnit: values.measureUnit,
                 stock: values.stock,
-                imageUrl: imageUrl
+                imageUrl: " "
               }),
             };
             fetch(
-              `https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller/${user.sellerId}/product/${productId}`,
+              `https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller/${user.sellerId}/product`,
               requestOptions
             )
               .then((response) => response.json())
@@ -177,11 +105,11 @@ export default function EditProduct({navigation}) {
               .catch((err) => {
                 console.log(err);
               });
+              createAddAlert();
 
           }}
         >
           {(props) => (
-              <ScrollView>
             <View>
               <Text style={styles.text}>Nombre del producto:</Text>
               <TextInput
@@ -192,13 +120,10 @@ export default function EditProduct({navigation}) {
                 value={props.values.productName}
               />
               <Text style={styles.errorText}>
-                {props.touched.productName &&
-                  props.errors.productName}
+                {props.touched.productName && props.errors.productName}
               </Text>
 
-              <Text style={styles.text}>
-                Descripcion del producto:
-              </Text>
+              <Text style={styles.text}>Descripcion del producto:</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Descripcion del producto"
@@ -207,8 +132,7 @@ export default function EditProduct({navigation}) {
                 value={props.values.description}
               />
               <Text style={styles.errorText}>
-                {props.touched.description &&
-                  props.errors.description}
+                {props.touched.description && props.errors.description}
               </Text>
 
               <Text style={styles.text}>Categoria del producto:</Text>
@@ -247,11 +171,10 @@ export default function EditProduct({navigation}) {
                 value={props.values.measureUnit}
               />
               <Text style={styles.errorText}>
-                {props.touched.measureUnit &&
-                  props.errors.measureUnit}
+                {props.touched.measureUnit && props.errors.measureUnit}
               </Text>
 
-              <Text style={styles.text}>Cantidad disponible: </Text>
+              <Text style={styles.text}>Cantidad disponible:</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Cantidad disponible"
@@ -264,24 +187,14 @@ export default function EditProduct({navigation}) {
                 {props.touched.stock && props.errors.stock}
               </Text>
 
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <FlatButton text="Elegir una imagen" onPress={pickImage} />
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-              </View>
-
               <FlatButton
                 onPress={props.handleSubmit}
-                text="Guardar los cambios"
+                text="Añadir el producto"
               />
-
-              <FlatButtonDelete text="Eliminar producto" onPress={() => {
-                createDeleteAlert(productId);
-              }}/> 
-
             </View>
-              </ScrollView>
           )}
         </Formik>
+      </View>
     </ScrollView>
   )
 
@@ -348,4 +261,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 })
-

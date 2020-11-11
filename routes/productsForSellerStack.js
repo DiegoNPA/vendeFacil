@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../shared/header';
 import ProductsForSeller from '../screens/productsForSeller';
 import EditProduct from '../screens/editProduct';
+import AddProduct from '../screens/addProduct';
 
 const screens = {
   ProductsForSeller: {
@@ -17,6 +18,12 @@ const screens = {
     screen: EditProduct,
     navigationOptions: {
       title: "Editar producto"
+    }
+  },
+  AddProduct: {
+    screen: AddProduct,
+    navigationOptions: {
+      title: "Agregar Producto"
     }
   }
 }
