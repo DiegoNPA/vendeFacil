@@ -3,6 +3,7 @@ import Sellers from '../screens/sellers';
 import Products from '../screens/products';
 import Header from '../shared/header'
 import React from 'react';
+import BuyProduct from '../screens/buyProduct';
 
 const screens = {
   Sellers: {
@@ -17,6 +18,12 @@ const screens = {
     screen: Products,
     navigationOptions: {
       title: "Productos"
+    }
+  },
+  BuyProduct: {
+    screen: BuyProduct,
+    navigationOptions: {
+      title: "Comprar Producto"
     }
   }
 }
