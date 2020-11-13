@@ -26,7 +26,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyCD8wRua_DSxY-unRFSv35HOsqcA7uR54U"
+          "apiKey": "########"
         }
       },
       "package": "com.diegonpa.vendeFacil"
