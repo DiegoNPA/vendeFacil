@@ -1,13 +1,29 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native'
-import ProductItem from '../Components/productItem'
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Modal, Dimensions } from 'react-native'
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import FlatButton from '../shared/button';
 import { UserContext } from "../Contexts/UserContext";
+import * as Location from 'expo-location';
+import MapView from 'react-native-maps';
 
 export default function BuyProduct ({navigation}) {
+
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
 
   const {user} = useContext(UserContext);
 
@@ -32,7 +48,7 @@ export default function BuyProduct ({navigation}) {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity: values.quantity })
+                body: JSON.stringify({ quantity: values.quantity, latitude: location.coords.latitude, longitude: location.coords.longitude })
                 };
                 fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/client/${user.clientId}/seller/${sellerId}/product/${productId}/order`, requestOptions)
                     .then(response => response.json())
@@ -118,5 +134,9 @@ const styles = StyleSheet.create({
       color: 'crimson',
       fontWeight: 'bold',
       textAlign: 'center',
-  }
+  },
+  mapStyle: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
 })

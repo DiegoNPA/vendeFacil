@@ -23,7 +23,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCD8wRua_DSxY-unRFSv35HOsqcA7uR54U"
+        }
+      },
+      "package": "com.diegonpa.vendeFacil"
     },
     "web": {
       "favicon": "./assets/favicon.png"

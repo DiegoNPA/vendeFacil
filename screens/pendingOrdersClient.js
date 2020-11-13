@@ -33,7 +33,7 @@ export default function PendingOrdersClient({ navigation }) {
                     keyExtractor={(item, index) => item.SK}
                     renderItem={({ item }) => (
                         (item.orderStatus == 'Pendiente' ? 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('OrderMap', item)}>
                                 <OrderItem item={item}/>
                             </TouchableOpacity> : null)
                     )}
