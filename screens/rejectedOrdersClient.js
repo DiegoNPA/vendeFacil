@@ -33,7 +33,7 @@ export default function RejectedOrdersClient({ navigation }) {
                     keyExtractor={(item, index) => item.SK}
                     renderItem={({ item }) => (
                         (item.orderStatus == 'Rechazado' ? 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('OrderMap', item)}>
                                 <OrderItem item={item}/>
                             </TouchableOpacity> : null)
                     )}

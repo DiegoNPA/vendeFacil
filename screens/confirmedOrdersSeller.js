@@ -95,7 +95,7 @@ export default function ConfirmedOrdersSeller({ navigation }) {
                     keyExtractor={(item, index) => item.SK}
                     renderItem={({ item }) => (
                         (item.orderStatus == 'Confirmado' ? 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('OrderMap', item)}>
                                 <OrderItem item={item}/>
                                 <FlatButtonDeliver onPress={() => createDeliverAlert(item.orderId)} text='Pedido entregado'/>
                                 <FlatButtonDelete onPress={() => createRejectAlert(item.orderId)} text='Rechazar el pedido'/>

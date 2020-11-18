@@ -11,16 +11,6 @@ export default function AllProducts({ navigation }) {
 
     const {user} = useContext(UserContext);
 
-    const [modalOpen, setOpenModal] = useState(false);
-
-    const schema = yup.object({
-        quantity: yup.string()
-            .required('Este valor es requerido!')
-            .test('isNumber', 'El valor debe ser un numero', (val) => {
-                return parseInt(val) > 0;
-            })
-    })
-
     const url = `https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/products`
     const [products, setProducts] = useState([]);
     fetch(url)
@@ -41,53 +31,7 @@ export default function AllProducts({ navigation }) {
                 data={products}
                 keyExtractor={(item, index) => item.SK}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => setOpenModal(true)}>
-                        <Modal visible={modalOpen} animationType='slide'>
-                            <View style={styles.modalContent}>
-                                <MaterialIcons 
-                                    name='close'
-                                    size={24}
-                                    style={{...styles.modalToggle, ...styles.modalClose}}
-                                    onPress={() => setOpenModal(false)}
-                                />
-                                <Formik 
-                                    initialValues={{quantity: ''}}
-                                    validationSchema={schema}
-                                    onSubmit = {(values) => {
-                                        setOpenModal(false);
-                                        console.log('prueba')
-                                        const requestOptions = {
-                                            method: 'POST',
-                                            headers: { 'Content-Type': 'application/json' },
-                                            body: JSON.stringify({ quantity: values.quantity })
-                                            };
-                                            console.log(user, 'aca');
-                                            console.log(item, 'tambien')
-                                            fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/client/${user.clientId}/seller/${item.sellerId}/product/${item.productId}/order`, requestOptions)
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    console.log(data, 'data');
-                                                });
-                                    }}
-                                >
-                                    {props => (
-                                        <View>
-                                            <TextInput
-                                                style={styles.input}
-                                                placeholder='Cantidad que desea comprar'
-                                                onChangeText={props.handleChange('quantity')}
-                                                onBlur={props.handleBlur('quantity')}
-                                                value={props.values.quantity}
-                                            />
-                                            <Text style={styles.errorText}>{props.touched.quantity && props.errors.quantity}</Text>
-
-                                            <FlatButton onPress={props.handleSubmit} text='Realizar la compra'/>
-                                        
-                                        </View>
-                                    )}
-                                </Formik>
-                            </View>
-                        </Modal>
+                    <TouchableOpacity onPress={() => navigation.navigate('BuyProduct2', item)}>
 
                         <ProductItem item={item}/>
 

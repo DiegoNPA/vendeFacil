@@ -6,7 +6,7 @@ import FlatButton from '../shared/button';
 import { UserContext } from "../Contexts/UserContext";
 import * as Location from 'expo-location';
 
-export default function BuyProduct ({navigation}) {
+export default function BuyProduct2 ({navigation}) {
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -74,7 +74,7 @@ export default function BuyProduct ({navigation}) {
         onSubmit = {(values) => {
             setQuantity(values.quantity);
             createConfirmAlert();
-            navigation.navigate('Sellers');
+            navigation.navigate('AllProducts');
         }}
     >
         {props => (

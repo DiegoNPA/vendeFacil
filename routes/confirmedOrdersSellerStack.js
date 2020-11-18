@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
 import Header from '../shared/header';
 import ConfirmedOrdersSeller from '../screens/confirmedOrdersSeller';
+import OrderMap from '../screens/orderMap';
 
 const screens = {
   ConfirmedOrdersSeller: {
@@ -12,6 +13,12 @@ const screens = {
       }
     },
   },
+  OrderMap: {
+    screen: OrderMap,
+    navigationOptions: {
+      title: "Ubicacion del pedido"
+    }
+  }
 }
 
 const ConfirmedOrdersSellerStack = createStackNavigator(screens, {

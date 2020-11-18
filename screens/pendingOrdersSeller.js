@@ -96,7 +96,7 @@ export default function PendingOrdersSeller({ navigation }) {
                     keyExtractor={(item, index) => item.SK}
                     renderItem={({ item }) => (
                         (item.orderStatus == 'Pendiente' ? 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('OrderMap', item)}>
                             <OrderItem item={item}/>
                             <FlatButtonConfirm onPress={() => createConfirmAlert(item.orderId)} text='Confirmar el pedido'/>
                             <FlatButtonDelete onPress={() => createRejectAlert(item.orderId)} text='Rechazar el pedido'/>

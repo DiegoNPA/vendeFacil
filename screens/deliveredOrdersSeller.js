@@ -33,7 +33,7 @@ export default function DeliveredOrdersSeller({ navigation }) {
                     keyExtractor={(item, index) => item.SK}
                     renderItem={({ item }) => (
                         (item.orderStatus == 'Entregado' ? 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('OrderMap', item)}>
                                 <OrderItem item={item}/>
                             </TouchableOpacity> : null)
                     )}

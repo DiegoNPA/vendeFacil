@@ -34,7 +34,7 @@ export default function ConfirmedOrdersClient({ navigation }) {
                     keyExtractor={(item, index) => item.SK}
                     renderItem={({ item }) => (
                         (item.orderStatus == 'Confirmado' ? 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('OrderMap', item)}>
                                 <OrderItem item={item}/>
                             </TouchableOpacity> : null)
                     )}

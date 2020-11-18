@@ -251,6 +251,7 @@ export default function SignIn() {
               <Text style={styles.errorText}>{props.touched.userName && props.errors.userName}</Text>
 
               <TextInput
+                secureTextEntry={true}
                 style={styles.input}
                 placeholder='Contraseña'
                 onChangeText={props.handleChange('password')}

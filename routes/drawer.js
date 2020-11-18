@@ -16,6 +16,9 @@ const RootDrawerNavigator = createDrawerNavigator({
   Vendedores: {
     screen: SellersStack,
   },
+  TodosLosProductos: {
+    screen: AllProductsStack
+  },
   PedidosPendientes: {
     screen: PendingOrdersClientStack,
   },
@@ -27,9 +30,6 @@ const RootDrawerNavigator = createDrawerNavigator({
   },
   PedidosRecahzados: {
     screen: RejectedOrdersClientStack,
-  },
-  TodosLosProductos: {
-    screen: AllProductsStack
   },
   Usuario: {
     screen: ClientInfoStack

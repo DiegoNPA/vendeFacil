@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
 import Header from '../shared/header';
 import AllProducts from '../screens/allProducts';
+import BuyProduct2 from '../screens/buyProduct2';
 
 const screens = {
   AllProducts: {
@@ -12,6 +13,14 @@ const screens = {
       }
     },
   },
+  BuyProduct2: {
+    screen: BuyProduct2,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => <Header title='Compra del producto' navigation={navigation} />
+      }
+    }
+  }
 }
 
 const AllProductsStack = createStackNavigator(screens, {
