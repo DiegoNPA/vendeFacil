@@ -413,7 +413,7 @@ export default function SignIn() {
 
                 <TextInput
                   style={styles.input}
-                  placeholder='Sexo'
+                  placeholder='M para masculino F para femenino'
                   onChangeText={props.handleChange('gender')}
                   onBlur={props.handleBlur('gender')}
                   value={props.values.gender}

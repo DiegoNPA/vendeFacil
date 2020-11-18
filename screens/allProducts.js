@@ -28,7 +28,7 @@ export default function AllProducts({ navigation }) {
         
         <View style={styles.list}>
             <FlatList 
-                data={products}
+                data={products.sort((a, b) => a.category.localeCompare(b.category))}
                 keyExtractor={(item, index) => item.SK}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => navigation.navigate('BuyProduct2', item)}>
