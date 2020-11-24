@@ -10,7 +10,6 @@ export default function BuyProduct2 ({navigation}) {
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [quantity, setQuantity] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -24,7 +23,7 @@ export default function BuyProduct2 ({navigation}) {
     })();
   }, []);
 
-  const createConfirmAlert = () =>
+  const createConfirmAlert = (quant) =>
     Alert.alert(
         "Confirmar la compra",
         "¿Desea confirmar el pedido?",
@@ -39,7 +38,7 @@ export default function BuyProduct2 ({navigation}) {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity: parseInt(quantity), latitude: location.coords.latitude, longitude: location.coords.longitude })
+                body: JSON.stringify({ quantity: quant, latitude: location.coords.latitude, longitude: location.coords.longitude })
                 };
                 fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/client/${user.clientId}/seller/${sellerId}/product/${productId}/order`, requestOptions)
                     .then(response => response.json())
@@ -72,8 +71,7 @@ export default function BuyProduct2 ({navigation}) {
         initialValues={{quantity: ''}}
         validationSchema={schema}
         onSubmit = {(values) => {
-            setQuantity(values.quantity);
-            createConfirmAlert();
+            createConfirmAlert(values.quantity);
             navigation.navigate('AllProducts');
         }}
     >
