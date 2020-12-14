@@ -1,10 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native'
 import ProductItem from '../Components/productItem'
-import { MaterialIcons } from '@expo/vector-icons';
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import FlatButton from '../shared/button';
 import { UserContext } from "../Contexts/UserContext";
 
 export default function Products({ navigation }) {

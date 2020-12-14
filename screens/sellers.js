@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, SafeAreaView, TouchableOpacity } from 'react-native'
 import SellerItem from '../Components/sellerItem'
 import Card from '../shared/card'
+import FlatButtonRate from '../shared/rateButton';
+
 
 export default function Sellers({navigation}) {
     
@@ -27,7 +29,9 @@ export default function Sellers({navigation}) {
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => navigation.navigate('Products', item)}> 
                         <SellerItem item={item}/>
+                        <FlatButtonRate onPress={() => navigation.navigate('RateSeller', item)} text='Evaluar vendedor'/>
                     </TouchableOpacity>
+                    
                 )}
             />
         </View>

@@ -4,6 +4,7 @@ import Products from '../screens/products';
 import Header from '../shared/header'
 import React from 'react';
 import BuyProduct from '../screens/buyProduct';
+import RateSeller from '../screens/rateSeller';
 
 const screens = {
   Sellers: {
@@ -24,6 +25,12 @@ const screens = {
     screen: BuyProduct,
     navigationOptions: {
       title: "Comprar Producto"
+    }
+  },
+  RateSeller: {
+    screen: RateSeller,
+    navigationOptions: {
+      title: "Evaluar vendedor"
     }
   }
 }

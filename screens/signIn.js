@@ -165,7 +165,11 @@ export default function SignIn() {
                       description: description,
                       category: category,
                       type: 'seller',
-                      imageUrl: " "
+                      imageUrl: " ",
+                      rating: 0,
+                      numReviews: 0,
+                      ratingTotal: 0,
+                      numComplaints: 0
                   }
                   setUser(user);
               });
@@ -204,7 +208,11 @@ export default function SignIn() {
               sellerName: json.sellerName,
               description: json.description,
               category: json.category,
-              imageUrl: json.imageUrl
+              imageUrl: json.imageUrl,
+              rating: json.rating,
+              numReviews: json.numReviews,
+              numComplaints: json.numComplaints,
+              ratingTotal: json.ratingTotal
             }
             setUser(user1);
             console.log(user1);

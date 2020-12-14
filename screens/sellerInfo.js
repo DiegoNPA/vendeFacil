@@ -69,8 +69,8 @@ export default function SellerInfo({ navigation }) {
         keyPrefix: 's3/',
         bucket: 'myphotosserverlessapp',
         region: 'us-east-1',
-        accessKey: '#######',
-        secretKey: '#######',
+        accessKey: '#####',
+        secretKey: '#####',
         successActionStatus: 201
       }
 
@@ -238,6 +238,8 @@ export default function SellerInfo({ navigation }) {
               <Text>Descripcion: {user.description}</Text>
               <Text>Categoria: {user.category}</Text>
               <Text>Telefono: {user.phone}</Text>
+              <Text>Calificacion: {user.rating}/5</Text>
+              <Text>Penalizaciones: {user.numComplaints}/10</Text>
             </View>
           </Card>
 
