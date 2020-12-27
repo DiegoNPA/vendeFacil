@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, ActivityIndicator, SafeAreaView, Touc
 import SellerItem from '../Components/sellerItem'
 import Card from '../shared/card'
 import FlatButtonRate from '../shared/rateButton';
-
+import FlatButtonComment from '../shared/commentsButton';
 
 export default function Sellers({navigation}) {
     
@@ -29,7 +29,7 @@ export default function Sellers({navigation}) {
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => navigation.navigate('Products', item)}> 
                         <SellerItem item={item}/>
-                        <FlatButtonRate onPress={() => navigation.navigate('RateSeller', item)} text='Evaluar vendedor'/>
+                            <FlatButtonComment onPress={() => navigation.navigate('Comments', item)} text='Reseñas'/>
                     </TouchableOpacity>
                     
                 )}

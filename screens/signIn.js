@@ -169,7 +169,10 @@ export default function SignIn() {
                       rating: 0,
                       numReviews: 0,
                       ratingTotal: 0,
-                      numComplaints: 0
+                      numComplaints: 0,
+                      comments: {
+                        
+                      }
                   }
                   setUser(user);
               });
@@ -212,7 +215,8 @@ export default function SignIn() {
               rating: json.rating,
               numReviews: json.numReviews,
               numComplaints: json.numComplaints,
-              ratingTotal: json.ratingTotal
+              ratingTotal: json.ratingTotal,
+              comments: json.comments
             }
             setUser(user1);
             console.log(user1);

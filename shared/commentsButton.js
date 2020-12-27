@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
-export default function FlatButtonRate({ text, onPress }) {
+export default function FlatButtonComment({ text, onPress }) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.button}>
-        <Text style={styles.buttonText}>{text}</Text>
-      </View>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>{text}</Text>
+        </View>
+      </TouchableOpacity>
   );
 }
 
@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'coral',
     width: "45%",
     alignSelf: 'center',
-    marginBottom: 5
   },
   buttonText: {
     color: 'white',

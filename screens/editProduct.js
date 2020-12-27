@@ -68,8 +68,8 @@ export default function EditProduct({navigation}) {
         keyPrefix: 's3/',
         bucket: 'myphotosserverlessapp',
         region: 'us-east-1',
-        accessKey: '#####',
-        secretKey: '#####',
+        accessKey: '######',
+        secretKey: '######',
         successActionStatus: 201
       }
 

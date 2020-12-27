@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { View, Text, StyleSheet, Modal, TextInput, ScrollView, Alert, BackHandler, Image } from 'react-native';
+import { View, Text, StyleSheet, Modal, TextInput, ScrollView, Alert, BackHandler, Image, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Card from '../shared/card';
 import { UserContext } from "../Contexts/UserContext";
@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import FlatButton from '../shared/button';
 import * as ImagePicker from 'expo-image-picker';
 import { RNS3 } from 'react-native-aws3';
+import Comment from '../Components/comment';
 
 export default function SellerInfo({ navigation }) {
 
@@ -18,6 +19,8 @@ export default function SellerInfo({ navigation }) {
     const [modalOpen, setOpenModal] = useState(false);
     const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState("");
+    const comments = user.comments;
+
 
     const url = `https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller/${user.sellerId}`
     const [seller, setSeller] = useState({});
@@ -69,8 +72,8 @@ export default function SellerInfo({ navigation }) {
         keyPrefix: 's3/',
         bucket: 'myphotosserverlessapp',
         region: 'us-east-1',
-        accessKey: '#####',
-        secretKey: '#####',
+        accessKey: '######',
+        secretKey: '######',
         successActionStatus: 201
       }
 
@@ -136,134 +139,145 @@ export default function SellerInfo({ navigation }) {
     
     return (
 
-      <ScrollView>
+      <View>
 
-        <View>
+        <ScrollView>
 
-        <Modal visible={modalOpen} animationType='slide'>
-              <View style={styles.modalContent}>
-                  <MaterialIcons 
-                      name='close'
-                      size={24}
-                      style={{...styles.modalToggle, ...styles.modalClose}}
-                      onPress={() => setOpenModal(false)}
-                  />
-                  <Formik 
-                    initialValues={{sellerName: `${user.sellerName}`, description: `${user.description}`, phone: `${user.phone}`, category: `${user.category}` }}
-                    validationSchema={schema}
-                    onSubmit = {(values) => {
-                        setOpenModal(false);
-                        console.log(values, 'valoressssssssss');
-                        console.log(imageUrl,"urrrrrrrrrrl");
-                        const requestOptions = {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ sellerName: values.sellerName, description: values.description, phone: values.phone, category: values.category, imageUrl: imageUrl })
-                            };
-                            fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller/${user.sellerId}`, requestOptions)
-                                .then(response => response.json())
-                                .then(data => {
-                                  console.log(data, 'dataxxxx');
-                                })
-                                .catch((err) => {
-                                  console.log(err);
-                                })
-                    }}
-                  >
-                      {props => (
-                          <ScrollView>
-                            <View>
+          <View>
+
+          <Modal visible={modalOpen} animationType='slide'>
+                <View style={styles.modalContent}>
+                    <MaterialIcons 
+                        name='close'
+                        size={24}
+                        style={{...styles.modalToggle, ...styles.modalClose}}
+                        onPress={() => setOpenModal(false)}
+                    />
+                    <Formik 
+                      initialValues={{sellerName: `${user.sellerName}`, description: `${user.description}`, phone: `${user.phone}`, category: `${user.category}` }}
+                      validationSchema={schema}
+                      onSubmit = {(values) => {
+                          setOpenModal(false);
+                          console.log(values, 'valoressssssssss');
+                          console.log(imageUrl,"urrrrrrrrrrl");
+                          const requestOptions = {
+                              method: 'PUT',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ sellerName: values.sellerName, description: values.description, phone: values.phone, category: values.category, imageUrl: imageUrl })
+                              };
+                              fetch(`https://2bgo6ptw6j.execute-api.us-east-1.amazonaws.com/dev/seller/${user.sellerId}`, requestOptions)
+                                  .then(response => response.json())
+                                  .then(data => {
+                                    console.log(data, 'dataxxxx');
+                                  })
+                                  .catch((err) => {
+                                    console.log(err);
+                                  })
+                      }}
+                    >
+                        {props => (
+                            <ScrollView>
+                              <View>
+                                
+                                <Text style={styles.text}>Nombre de su empresa:</Text>
+                                <TextInput
+                                  style={styles.input}
+                                  placeholder='Nombre del cliente'
+                                  onChangeText={props.handleChange('sellerName')}
+                                  onBlur={props.handleBlur('sellerName')}
+                                  value={props.values.sellerName}
+                                />
+                                <Text style={styles.errorText}>{props.touched.sellerName && props.errors.sellerName}</Text>
+
+                                <Text style={styles.text}>Descripcion de su empresa:</Text>
+                                <TextInput
+                                  style={styles.input}
+                                  placeholder='Apellido'
+                                  onChangeText={props.handleChange('description')}
+                                  onBlur={props.handleBlur('description')}
+                                  value={props.values.description}
+                                />
+                                <Text style={styles.errorText}>{props.touched.description && props.errors.description}</Text>
+
+                                <Text style={styles.text}>Numero telefonico:</Text>
+                                <TextInput
+                                  style={styles.input}
+                                  placeholder='Numero telefonico'
+                                  onChangeText={props.handleChange('phone')}
+                                  onBlur={props.handleBlur('phone')}
+                                  value={props.values.phone}
+                                />
+                                <Text style={styles.errorText}>{props.touched.phone && props.errors.phone}</Text>
+
+                                <Text style={styles.text}>Categoria de su empresa:</Text>
+                                <TextInput
+                                  style={styles.input}
+                                  placeholder='Sexo'
+                                  onChangeText={props.handleChange('category')}
+                                  onBlur={props.handleBlur('category')}
+                                  value={props.values.category}
+                                />
+                                <Text style={styles.errorText}>{props.touched.category && props.errors.category}</Text>
+
+                                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                  <FlatButton text="Elegir una imagen" onPress={pickImage} />
+                                  {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                                </View>
+
+                                <FlatButton onPress={props.handleSubmit} text='Guardar los cambios' />
                               
-                              <Text style={styles.text}>Nombre de su empresa:</Text>
-                              <TextInput
-                                style={styles.input}
-                                placeholder='Nombre del cliente'
-                                onChangeText={props.handleChange('sellerName')}
-                                onBlur={props.handleBlur('sellerName')}
-                                value={props.values.sellerName}
-                              />
-                              <Text style={styles.errorText}>{props.touched.sellerName && props.errors.sellerName}</Text>
-
-                              <Text style={styles.text}>Descripcion de su empresa:</Text>
-                              <TextInput
-                                style={styles.input}
-                                placeholder='Apellido'
-                                onChangeText={props.handleChange('description')}
-                                onBlur={props.handleBlur('description')}
-                                value={props.values.description}
-                              />
-                              <Text style={styles.errorText}>{props.touched.description && props.errors.description}</Text>
-
-                              <Text style={styles.text}>Numero telefonico:</Text>
-                              <TextInput
-                                style={styles.input}
-                                placeholder='Numero telefonico'
-                                onChangeText={props.handleChange('phone')}
-                                onBlur={props.handleBlur('phone')}
-                                value={props.values.phone}
-                              />
-                              <Text style={styles.errorText}>{props.touched.phone && props.errors.phone}</Text>
-
-                              <Text style={styles.text}>Categoria de su empresa:</Text>
-                              <TextInput
-                                style={styles.input}
-                                placeholder='Sexo'
-                                onChangeText={props.handleChange('category')}
-                                onBlur={props.handleBlur('category')}
-                                value={props.values.category}
-                              />
-                              <Text style={styles.errorText}>{props.touched.category && props.errors.category}</Text>
-
-                              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <FlatButton text="Elegir una imagen" onPress={pickImage} />
-                                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                               </View>
+                            </ScrollView>
+                        )}
+                    </Formik>
+                </View>
+            </Modal>
 
-                              <FlatButton onPress={props.handleSubmit} text='Guardar los cambios' />
-                            
-                            </View>
-                          </ScrollView>
-                      )}
-                  </Formik>
+            <Card>
+              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+                <Image source={{ uri:seller.imageUrl }} style={{ width: 200, height: 200, borderBottomRightRadius: 20, borderBottomLeftRadius: 20, borderTopRightRadius: 20,borderTopLeftRadius: 20 }} />
               </View>
-          </Modal>
+              <View>
+                <Ionicons name="md-person" size={30} color="black" />
+                <Text style={styles.title}>{user.sellerName}</Text>
+                <Text>Descripcion: {user.description}</Text>
+                <Text>Categoria: {user.category}</Text>
+                <Text>Telefono: {user.phone}</Text>
+                <Text>Calificacion: {user.rating}/5</Text>
+              </View>
+            </Card>
 
-          <Card>
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-              <Image source={{ uri:seller.imageUrl }} style={{ width: 200, height: 200, borderBottomRightRadius: 20, borderBottomLeftRadius: 20, borderTopRightRadius: 20,borderTopLeftRadius: 20 }} />
+            <View style={{ alignItems: 'center'}}>
+              <AntDesign 
+                name="edit" 
+                size={30} 
+                color="black" 
+                style={{...styles.modalToggle, ...styles.modalClose}}
+                onPress={() => setOpenModal(true)}
+              />
+
+              <AntDesign 
+                name="deleteuser" 
+                size={30} 
+                style={{margin: 10}}
+                color="red" 
+                onPress={() => createDeleteAlert()}
+              />
             </View>
-            <View>
-              <Ionicons name="md-person" size={30} color="black" />
-              <Text style={styles.title}>{user.sellerName}</Text>
-              <Text>Descripcion: {user.description}</Text>
-              <Text>Categoria: {user.category}</Text>
-              <Text>Telefono: {user.phone}</Text>
-              <Text>Calificacion: {user.rating}/5</Text>
-              <Text>Penalizaciones: {user.numComplaints}/10</Text>
-            </View>
-          </Card>
 
-          <View style={{ alignItems: 'center'}}>
-            <AntDesign 
-              name="edit" 
-              size={30} 
-              color="black" 
-              style={{...styles.modalToggle, ...styles.modalClose}}
-              onPress={() => setOpenModal(true)}
-            />
-
-            <AntDesign 
-              name="deleteuser" 
-              size={30} 
-              style={{margin: 10}}
-              color="red" 
-              onPress={() => createDeleteAlert()}
-            />
           </View>
 
-        </View>
 
-      </ScrollView>
+        </ScrollView>
+        <FlatList 
+            data={comments}
+            keyExtractor={(item, index) => item}
+            renderItem={({ item }) => (
+              <Comment item={item}/>
+            )}
+        />
+      </View>
+
 
     )
 
